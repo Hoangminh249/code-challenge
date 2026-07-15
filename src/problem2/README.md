@@ -18,15 +18,15 @@ Yêu cầu Node 20+.
 
 ## Stack & WHY
 
-| Công nghệ | Lý do chọn |
-|-----------|------------|
-| **Vite + React + TS** | Đề bài prefer Vite; strict typing bắt lỗi giá/token sớm |
+| Công nghệ                    | Lý do chọn                                                 |
+| ---------------------------- | ---------------------------------------------------------- |
+| **Vite + React + TS**        | Đề bài prefer Vite; strict typing bắt lỗi giá/token sớm    |
 | **Tailwind + CSS variables** | Design token nhỏ, dễ theme, ship UI nhanh mà vẫn kiểm soát |
-| **TanStack Query** | Server-state (price feed): cache, retry, stale, refetch |
-| **react-hook-form + zod** | Validation declarative, ít re-render |
-| **decimal.js** | Tránh lỗi float (`0.1 + 0.2`) khi tính quote |
-| **Radix Dialog + cmdk** | Token picker accessible (focus trap, keyboard) |
-| **sonner** | Toast success/error với Retry |
+| **TanStack Query**           | Server-state (price feed): cache, retry, stale, refetch    |
+| **react-hook-form + zod**    | Validation declarative, ít re-render                       |
+| **decimal.js**               | Tránh lỗi float (`0.1 + 0.2`) khi tính quote               |
+| **Radix Dialog + cmdk**      | Token picker accessible (focus trap, keyboard)             |
+| **sonner**                   | Toast success/error với Retry                              |
 
 **Không dùng Zustand/Context** — scope 1 trang, state local + Query đủ.
 
@@ -39,14 +39,14 @@ Yêu cầu Node 20+.
 
 ## Feature checklist
 
-| Yêu cầu | Vị trí |
-|---------|--------|
-| Send / receive inputs | `AssetPanel.tsx`, `AmountInput.tsx` |
-| Live exchange rate | `lib/swapRate.ts`, `RateLine.tsx` |
-| Token icons | `TokenIcon.tsx`, `lib/tokenIcon.ts` |
-| Loại token không có giá | `lib/normalizePrices.ts` |
-| Validation | `lib/swapFormSchema.ts`, `SwapCard.tsx` |
-| Simulate backend | `lib/mockSwap.ts` |
+| Yêu cầu                  | Vị trí                                            |
+| ------------------------ | ------------------------------------------------- |
+| Send / receive inputs    | `AssetPanel.tsx`, `AmountInput.tsx`               |
+| Live exchange rate       | `lib/swapRate.ts`, `RateLine.tsx`                 |
+| Token icons              | `TokenIcon.tsx`, `lib/tokenIcon.ts`               |
+| Loại token không có giá  | `lib/normalizePrices.ts`                          |
+| Validation               | `lib/swapFormSchema.ts`, `SwapCard.tsx`           |
+| Simulate backend         | `lib/mockSwap.ts`                                 |
 | Beautiful / intuitive UI | Tailwind tokens, dynamic CTA, MAX, swap direction |
 
 ## UX highlights
@@ -83,7 +83,7 @@ src/problem2/
 └─ README.md
 ```
 
-## Checklist trước khi nộp (top 5%)
+## Checklist
 
 - [ ] `npm run build` pass
 - [ ] `npm test` pass
