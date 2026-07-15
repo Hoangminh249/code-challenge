@@ -26,15 +26,14 @@ export function TokenSelect({
   onChange,
 }: TokenSelectProps) {
   const [open, setOpen] = useState(false);
-  const selected = tokens.find((token) => token.symbol === value);
 
-  const sortedTokens = useMemo(
-    () =>
-      [...tokens].sort((left, right) =>
-        left.symbol.localeCompare(right.symbol),
-      ),
-    [tokens],
-  );
+  const [selectedToken, sortedTokens] = useMemo(() => {
+    const selectedToken = tokens.find((token) => token.symbol === value);
+    const sortedTokens = [...tokens].sort((left, right) =>
+      left.symbol.localeCompare(right.symbol),
+    );
+    return [selectedToken, sortedTokens];
+  }, [tokens, value, disabledSymbol]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -45,14 +44,14 @@ export function TokenSelect({
           variant="secondary"
           disabled={disabled}
           className="min-w-[132px] justify-between gap-2 rounded-xl px-3"
-          aria-label={`${label}: ${selected?.symbol ?? "Select token"}`}
+          aria-label={`${label}: ${selectedToken?.symbol ?? "Select token"}`}
         >
           {disabled ? (
             <span className="text-muted">…</span>
-          ) : selected ? (
+          ) : selectedToken ? (
             <>
-              <TokenIcon symbol={selected.symbol} />
-              <span className="font-semibold">{selected.symbol}</span>
+              <TokenIcon symbol={selectedToken.symbol} />
+              <span className="font-semibold">{selectedToken.symbol}</span>
             </>
           ) : (
             <span className="text-muted">Select</span>

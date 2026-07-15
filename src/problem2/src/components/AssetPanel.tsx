@@ -127,9 +127,9 @@ export function AssetPanel({
       <p className="mt-2 text-right text-sm text-muted">
         {isLoading ? (
           <InlineSkeleton className="ml-auto h-4 w-24" />
-        ) : !readOnly ? (
+        ) : (
           <>≈ {usdValue ? formatUsd(usdValue) : "0"} USD</>
-        ) : null}
+        )}
       </p>
 
       {errorMessage && (

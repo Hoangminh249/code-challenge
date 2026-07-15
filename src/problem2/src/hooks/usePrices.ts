@@ -1,9 +1,7 @@
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { fetchPrices } from "@/api/prices";
 import { PRICES_STALE_TIME_MS } from "@/constants";
-import { findToken, normalizePrices } from "@/lib/normalizePrices";
-import type { Token } from "@/types/token";
+import { normalizePrices } from "@/lib/normalizePrices";
+import { useQuery } from "@tanstack/react-query";
 
 export function usePrices() {
   const query = useQuery({
@@ -17,18 +15,8 @@ export function usePrices() {
 
   const tokens = query.data ?? [];
 
-  const helpers = useMemo(
-    () => ({
-      getToken(symbol: string | undefined): Token | undefined {
-        return findToken(tokens, symbol);
-      },
-    }),
-    [tokens],
-  );
-
   return {
     ...query,
     tokens,
-    ...helpers,
   };
 }

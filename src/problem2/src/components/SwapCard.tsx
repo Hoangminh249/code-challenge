@@ -178,6 +178,7 @@ export function SwapCard() {
     setValue("amount", "");
   };
 
+  // Initialize - default symbols
   useEffect(() => {
     if (!tokens.length || hasSeededDefaults.current) {
       return;
