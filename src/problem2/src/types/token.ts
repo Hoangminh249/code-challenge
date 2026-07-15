@@ -34,12 +34,13 @@ export interface MockSwapResult {
   executedAt: string;
 }
 
-export type SubmitButtonState =
-  | "loading_prices"
-  | "select_tokens"
-  | "enter_amount"
-  | "insufficient_balance"
-  | "invalid_amount"
-  | "same_token"
-  | "swapping"
-  | "ready";
+export enum SubmitButtonState {
+  LoadingPrices = "loading_prices",
+  SelectTokens = "select_tokens",
+  EnterAmount = "enter_amount",
+  InsufficientBalance = "insufficient_balance",
+  InvalidAmount = "invalid_amount",
+  SameToken = "same_token",
+  Swapping = "swapping",
+  Ready = "ready",
+}

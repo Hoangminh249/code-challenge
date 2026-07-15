@@ -12,6 +12,7 @@ interface TokenSelectProps {
   tokens: Token[];
   value: string;
   disabledSymbol?: string;
+  disabled?: boolean;
   onChange: (symbol: string) => void;
 }
 
@@ -21,6 +22,7 @@ export function TokenSelect({
   tokens,
   value,
   disabledSymbol,
+  disabled = false,
   onChange,
 }: TokenSelectProps) {
   const [open, setOpen] = useState(false);
@@ -41,10 +43,13 @@ export function TokenSelect({
           type="button"
           id={id}
           variant="secondary"
+          disabled={disabled}
           className="min-w-[132px] justify-between gap-2 rounded-xl px-3"
           aria-label={`${label}: ${selected?.symbol ?? "Select token"}`}
         >
-          {selected ? (
+          {disabled ? (
+            <span className="text-muted">…</span>
+          ) : selected ? (
             <>
               <TokenIcon symbol={selected.symbol} />
               <span className="font-semibold">{selected.symbol}</span>

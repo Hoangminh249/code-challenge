@@ -18,9 +18,22 @@ interface AssetPanelProps {
   invalid?: boolean;
   errorMessage?: string;
   showMax?: boolean;
+  isLoading?: boolean;
   onAmountChange?: (value: string) => void;
   onTokenChange: (symbol: string) => void;
   onMaxClick?: () => void;
+}
+
+function InlineSkeleton({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "inline-block animate-pulse rounded-md bg-surface-muted",
+        className,
+      )}
+    />
+  );
 }
 
 export function AssetPanel({
@@ -36,13 +49,11 @@ export function AssetPanel({
   invalid = false,
   errorMessage,
   showMax = false,
+  isLoading = false,
   onAmountChange,
   onTokenChange,
   onMaxClick,
 }: AssetPanelProps) {
-  const amountInputId = `${id}-amount`;
-  const errorId = `${id}-error`;
-
   return (
     <section
       className={cn(
@@ -52,54 +63,81 @@ export function AssetPanel({
       aria-labelledby={`${id}-label`}
     >
       <div className="mb-3 flex items-center justify-between gap-3">
-        <label id={`${id}-label`} htmlFor={amountInputId} className="text-sm text-muted">
+        <label
+          id={`${id}-label`}
+          htmlFor={`${id}-amount`}
+          className="text-sm text-muted"
+        >
           {label}
         </label>
+
         {balance !== undefined && (
           <div className="flex items-center gap-2 text-xs text-muted">
-            <span>
-              Balance: <span className="text-foreground">{balance}</span> {selectedSymbol}
-            </span>
-            {showMax && onMaxClick && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={onMaxClick}
-                aria-label={`Use maximum ${selectedSymbol} balance`}
-              >
-                MAX
-              </Button>
+            {isLoading ? (
+              <InlineSkeleton className="h-4 w-28" />
+            ) : (
+              <>
+                <span>
+                  Balance: <span className="text-foreground">{balance}</span>{" "}
+                  {selectedSymbol}
+                </span>
+
+                {showMax && onMaxClick && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={onMaxClick}
+                    aria-label={`Use maximum ${selectedSymbol} balance`}
+                  >
+                    MAX
+                  </Button>
+                )}
+              </>
             )}
           </div>
         )}
       </div>
 
       <div className="flex items-center gap-3">
-        <AmountInput
-          id={amountInputId}
-          value={amount}
-          readOnly={readOnly}
-          invalid={invalid}
-          onValueChange={onAmountChange ?? (() => undefined)}
-          aria-describedby={errorMessage ? errorId : undefined}
-        />
+        {isLoading ? (
+          <InlineSkeleton className="h-9 flex-1" />
+        ) : (
+          <AmountInput
+            id={`${id}-amount`}
+            value={amount}
+            readOnly={readOnly}
+            invalid={invalid}
+            onValueChange={onAmountChange ?? (() => undefined)}
+            aria-describedby={errorMessage ? `${id}-error` : undefined}
+          />
+        )}
+
         <TokenSelect
           id={`${id}-token`}
           label={label}
           tokens={tokens}
           value={selectedSymbol}
           disabledSymbol={disabledSymbol}
+          disabled={isLoading}
           onChange={onTokenChange}
         />
       </div>
 
       <p className="mt-2 text-right text-sm text-muted">
-        ≈ {usdValue ? formatUsd(usdValue) : "—"}
+        {isLoading ? (
+          <InlineSkeleton className="ml-auto h-4 w-24" />
+        ) : !readOnly ? (
+          <>≈ {usdValue ? formatUsd(usdValue) : "0"} USD</>
+        ) : null}
       </p>
 
       {errorMessage && (
-        <p id={errorId} role="alert" className="mt-2 text-sm text-destructive">
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="mt-2 text-sm text-destructive"
+        >
           {errorMessage}
         </p>
       )}

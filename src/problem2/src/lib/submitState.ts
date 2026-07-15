@@ -1,4 +1,4 @@
-import type { SubmitButtonState } from "@/types/token";
+import { SubmitButtonState } from "@/types/token";
 
 interface ResolveSubmitLabelParams {
   state: SubmitButtonState;
@@ -6,21 +6,21 @@ interface ResolveSubmitLabelParams {
 }
 
 const LABELS: Record<SubmitButtonState, string> = {
-  loading_prices: "Loading prices...",
-  select_tokens: "Select tokens",
-  enter_amount: "Enter an amount",
-  insufficient_balance: "Insufficient balance",
-  invalid_amount: "Enter a valid amount",
-  same_token: "Choose different tokens",
-  swapping: "Swapping...",
-  ready: "Confirm swap",
+  [SubmitButtonState.LoadingPrices]: "Loading prices...",
+  [SubmitButtonState.SelectTokens]: "Select tokens",
+  [SubmitButtonState.EnterAmount]: "Enter an amount",
+  [SubmitButtonState.InsufficientBalance]: "Insufficient balance",
+  [SubmitButtonState.InvalidAmount]: "Enter a valid amount",
+  [SubmitButtonState.SameToken]: "Choose different tokens",
+  [SubmitButtonState.Swapping]: "Swapping...",
+  [SubmitButtonState.Ready]: "Confirm swap",
 };
 
 export function resolveSubmitLabel({
   state,
   fromSymbol,
 }: ResolveSubmitLabelParams): string {
-  if (state === "insufficient_balance" && fromSymbol) {
+  if (state === SubmitButtonState.InsufficientBalance && fromSymbol) {
     return `Insufficient ${fromSymbol} balance`;
   }
 
@@ -37,32 +37,32 @@ export function resolveSubmitState(params: {
   isAmountValid: boolean;
 }): SubmitButtonState {
   if (params.isLoadingPrices) {
-    return "loading_prices";
+    return SubmitButtonState.LoadingPrices;
   }
 
   if (params.isSwapping) {
-    return "swapping";
+    return SubmitButtonState.Swapping;
   }
 
   if (!params.fromSymbol || !params.toSymbol) {
-    return "select_tokens";
+    return SubmitButtonState.SelectTokens;
   }
 
   if (params.fromSymbol === params.toSymbol) {
-    return "same_token";
+    return SubmitButtonState.SameToken;
   }
 
   if (!params.amount.trim()) {
-    return "enter_amount";
+    return SubmitButtonState.EnterAmount;
   }
 
   if (!params.isAmountValid) {
-    return "invalid_amount";
+    return SubmitButtonState.InvalidAmount;
   }
 
   if (params.hasInsufficientBalance) {
-    return "insufficient_balance";
+    return SubmitButtonState.InsufficientBalance;
   }
 
-  return "ready";
+  return SubmitButtonState.Ready;
 }
