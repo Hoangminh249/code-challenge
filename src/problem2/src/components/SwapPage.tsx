@@ -1,0 +1,9 @@
+import { SwapCard } from "@/components/SwapCard";
+
+export function SwapPage() {
+  return (
+    <main className="flex min-h-screen items-center justify-center px-4 py-10">
+      <SwapCard />
+    </main>
+  );
+}
