@@ -199,13 +199,34 @@ export function SwapCard() {
     hasSeededDefaults.current = true;
   }, [setValue, tokens]);
 
+  if (isError && !tokens.length) {
+    return (
+      <div className="w-full max-w-[620px] rounded-3xl border border-border bg-surface/80 p-5 shadow-glow backdrop-blur animate-fade-in">
+        <div className="mb-5">
+          <h1 className="font-display text-2xl font-semibold tracking-tight">
+            Token prices are not available.
+          </h1>
+        </div>
+        <ErrorBanner
+          message={
+            error instanceof Error
+              ? error.message
+              : "Unable to load token prices."
+          }
+          onRetry={refetch}
+          isRetrying={isFetching}
+        />
+      </div>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit(runSwap)}
       className="w-full max-w-[620px] rounded-3xl border border-border bg-surface/80 p-5 shadow-glow backdrop-blur animate-fade-in"
       noValidate
     >
-      <header className="mb-5">
+      <div className="mb-5">
         <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent">
           Switcheo
         </p>
@@ -217,21 +238,7 @@ export function SwapCard() {
         <p className="mt-1 text-sm text-muted">
           Live prices from the interview feed. Balances are mocked for demo.
         </p>
-      </header>
-
-      {isError && !tokens.length && (
-        <div className="mb-4">
-          <ErrorBanner
-            message={
-              error instanceof Error
-                ? error.message
-                : "Unable to load token prices."
-            }
-            onRetry={() => void refetch()}
-            isRetrying={isFetching}
-          />
-        </div>
-      )}
+      </div>
 
       <div className="space-y-1">
         <AssetPanel
